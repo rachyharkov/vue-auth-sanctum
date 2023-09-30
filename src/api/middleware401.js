@@ -8,10 +8,10 @@ const middleware401 = async error => {
 	if (status === 401 || status === 419) {
 		// const auth = useAuthStore()
 		// setTimeout(async () => await auth.logout(), 3000)
-		return Promise.reject({
-			name: 'Permission denied',
-			message: 'You lost your credentials - will be redirected to login page.',
-		})
+		// return Promise.reject({
+		// 	name: 'Permission denied',
+		// 	message: 'You lost your credentials - will be redirected to login page.',
+		// })
 	}
 	return Promise.reject(error)
 }
