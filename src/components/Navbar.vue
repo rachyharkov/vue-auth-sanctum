@@ -2,6 +2,7 @@
 import { useAuthStore } from '../stores/auth'
 
 const auth = useAuthStore()
+
 </script>
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
