@@ -43,7 +43,11 @@ const auth = useAuthStore()
                         <router-link to="/login" class="nav-link active" v-if="!auth.isLoggedIn">Login</router-link>
                     </li>
                     <li class="nav-item">
-                        <a @click="auth.logout" class="nav-link active"  v-if="auth.isLoggedIn" href="#">Logout</a>
+                        <a @click="auth.logout" class="nav-link active" v-if="auth.isLoggedIn" href="#">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <router-link :to="{ name: 'products' }" class="nav-link active"
+                            v-if="auth.isLoggedIn">Products</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link :to="{ name: 'profile' }" class="nav-link active">
