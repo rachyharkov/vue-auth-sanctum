@@ -16,7 +16,7 @@ const app = createApp(App)
 
 const toastOptions = {
     position: "top-center",
-    timeout: 2000,
+    timeout: 2500,
     closeOnClick: true,
     pauseOnFocusLoss: true,
     pauseOnHover: true,

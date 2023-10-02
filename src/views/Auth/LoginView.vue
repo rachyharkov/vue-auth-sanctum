@@ -13,11 +13,11 @@ const username = ref('')
 const password = ref('')
 
 watch(username, () => {
-    auth.validationErrors.username = null
+    auth.resetValidationErrors()
 })
 
 watch(password, () => {
-    auth.validationErrors.password = null
+    auth.resetValidationErrors()
 })
 </script>
 
