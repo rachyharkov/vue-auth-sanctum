@@ -10,6 +10,11 @@ export const useProductStore = defineStore('product', () => {
     const auth = useAuthStore()
     const products = ref([])
     const product = ref({})
+    const page = ref(1)
+    const perPage = ref(10)
+    const orderByField = ref(null)
+    const orderByAsc = ref(true)
+    const isLoading = ref(false)
 
     /**
      * Retrieves all products from the API.
@@ -17,15 +22,15 @@ export const useProductStore = defineStore('product', () => {
      * @return {Promise<void>} - A promise that resolves when the products are retrieved successfully, or rejects with an error.
      */
     const getAllProducts = async () => {
-        await api.get('/products', {
+        isLoading.value = true
+        await api.get(`/products?page=${page.value}&per_page=${perPage.value}&order_by=${orderByField.value}&order_type=${orderByAsc.value ? 'asc' : 'desc'}`, {
             headers: auth.getTokenHeader()
         })
             .then(({ data }) => {
-                // toast.success(data.message)
                 products.value = data
+                isLoading.value = false
             })
             .catch(({ response }) => {
-                console.log(response)
                 toast.error(response.data.message)
             })
     }
@@ -44,15 +49,29 @@ export const useProductStore = defineStore('product', () => {
                 product.value = data.products
             })
             .catch(({ response }) => {
-                console.log(response)
                 toast.error(response.data.message)
             })
+    }
+
+    const setOrderBy = (field) => {
+        orderByField.value = field
+        orderByAsc.value = !orderByAsc.value
+
+        getAllProducts()
     }
 
     return {
         products,
         product,
         getAllProducts,
-        getProductById
+        getProductById,
+        page,
+        perPage,
+        orderByField,
+        orderByAsc,
+        setOrderBy,
+        isLoading
     }
+}, {
+    persist: true
 })
