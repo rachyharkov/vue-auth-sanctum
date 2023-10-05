@@ -28,8 +28,8 @@ export const useAuthStore = defineStore('auth', () => {
             .then(({ data }) => {
                 setAsLoggedIn(data)
                 toast.success(data.message)
-                
-                if(redirect.route) {
+
+                if (redirect.route) {
                     const { name } = redirect.route
                     redirect.clearRoute()
                     router.push(name)
@@ -45,6 +45,17 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     /**
+     * Generate the token header for API requests.
+     *
+     * @return {object} The token header object.
+     */
+    const getTokenHeader = () => {
+        return {
+            Authorization: `Bearer ${token.value}`
+        }
+    }
+
+    /**
      * Logs the user out by making a POST request to the logout endpoint.
      *
      * @return {Promise<void>} A promise that resolves when the logout process is complete.
@@ -55,10 +66,10 @@ export const useAuthStore = defineStore('auth', () => {
                 Authorization: `Bearer ${token.value}`
             },
         }).then(({ data }) => {
-            clearState()
             redirect.setRoute(null)
             toast.success(data.message)
-            router.push({ name: 'login' })
+            clearState()
+            // router.push({ name: 'login' })
         }).catch(({ response }) => {
             validationErrors.value = response.data.errors
             toast.error(response.data.message)
@@ -80,6 +91,7 @@ export const useAuthStore = defineStore('auth', () => {
         isLoggedIn.value = false
         user.value = null
         validationErrors.value = null
+        router.push({ name: 'login' })
     }
 
     /**
@@ -103,6 +115,7 @@ export const useAuthStore = defineStore('auth', () => {
         validationErrors,
         resetValidationErrors,
         clearState,
-        setAsLoggedIn
+        setAsLoggedIn,
+        getTokenHeader
     }
 }, { persist: true })

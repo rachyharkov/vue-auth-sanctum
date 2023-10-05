@@ -14,10 +14,14 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    isLarge: {
+        type: Boolean,
+        default: false
+    },
     type: {
         type: String,
         default: 'button'
-    }
+    },
 })
 
 const setButtonClassName = computed(() => {

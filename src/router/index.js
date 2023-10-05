@@ -48,6 +48,26 @@ const router = createRouter({
         title: 'Profile',
         description: 'Profile'
       }
+    },
+    {
+      path: '/products',
+      name: 'products',
+      component: () => import('../views/ProductView.vue'),
+      meta: {
+        requiresAuth: true,
+        title: 'Products',
+        description: 'Products'
+      }
+    },
+    {
+      path: '/products/:id',
+      name: 'productsDetail',
+      component: () => import('../views/Product/Detail.vue'),
+      meta: {
+        requiresAuth: true,
+        title: 'Product Detail',
+        description: 'Product Detail'
+      }
     }
   ]
 })
