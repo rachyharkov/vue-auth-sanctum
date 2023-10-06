@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
     modelValue: {
-        type: String,
+        type: [String, Number],
         required: true
     },
     options: {
@@ -39,6 +39,9 @@ defineProps({
         default: true        
     }
 })
+
+defineEmits(['update:modelValue'])
+
 </script>
 
 <template>
