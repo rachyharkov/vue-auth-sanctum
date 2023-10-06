@@ -12,9 +12,10 @@ export const useProductStore = defineStore('product', () => {
     const product = ref({})
     const page = ref(1)
     const perPage = ref(10)
-    const orderByField = ref(null)
+    const orderByField = ref('')
     const orderByAsc = ref(true)
     const isLoading = ref(false)
+    const search = ref('')
 
     /**
      * Retrieves all products from the API.
@@ -23,7 +24,7 @@ export const useProductStore = defineStore('product', () => {
      */
     const getAllProducts = async () => {
         isLoading.value = true
-        await api.get(`/products?page=${page.value}&per_page=${perPage.value}&order_by=${orderByField.value}&order_type=${orderByAsc.value ? 'asc' : 'desc'}`, {
+        await api.get(`/products?page=${page.value}&per_page=${perPage.value}&order_by=${orderByField.value}&order_type=${orderByAsc.value ? 'asc' : 'desc'}&search=${search.value}`, {
             headers: auth.getTokenHeader()
         })
             .then(({ data }) => {
@@ -53,6 +54,12 @@ export const useProductStore = defineStore('product', () => {
             })
     }
 
+    /**
+     * Sets the order by field and toggles the order by ascending value.
+     *
+     * @param {string} field - The field to order by.
+     * @return {void} - This function does not return a value.
+     */
     const setOrderBy = (field) => {
         orderByField.value = field
         orderByAsc.value = !orderByAsc.value
@@ -60,18 +67,22 @@ export const useProductStore = defineStore('product', () => {
         getAllProducts()
     }
 
-    return {
-        products,
-        product,
-        getAllProducts,
-        getProductById,
-        page,
-        perPage,
-        orderByField,
-        orderByAsc,
-        setOrderBy,
-        isLoading
+    /**
+     * Clears the state of the variables used in the function.
+     *
+     * @return {void} No return value.
+     */
+    const clear = () => {
+        products.value = []
+        product.value = {}
+        page.value = 1
+        perPage.value = 10
+        orderByField.value = ''
+        orderByAsc.value = true
+        search.value = ''
     }
-}, {
-    persist: true
-})
+
+    return {
+        products, product, getAllProducts, getProductById, page, perPage, orderByField, orderByAsc, setOrderBy, isLoading, search, clear
+    }
+}, { persist: true })
