@@ -85,7 +85,7 @@ watch(search, debounce(() => {
         </Row>
 
         <Card class="my-3">
-            <Table :colspan="2" :total="productStore?.products?.products?.length" :is-loading="productStore.isLoading"
+            <Table :colspan="2" :total="productStore?.products?.meta?.total" :is-loading="productStore.isLoading"
                 :width="tdWidth">
                 <template #thead>
                     <tr>
@@ -118,7 +118,7 @@ watch(search, debounce(() => {
             </Table>
         </Card>
 
-        <Pagination :links="productStore?.products?.meta?.links" :is-loading="productStore.isLoading"
+        <Pagination :meta="productStore?.products?.meta" :is-loading="productStore.isLoading"
             @getData="getProducts" />
     </div>
 </template>
