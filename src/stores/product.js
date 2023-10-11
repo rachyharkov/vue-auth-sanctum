@@ -16,6 +16,8 @@ export const useProductStore = defineStore('product', () => {
     const orderByAsc = ref(true)
     const isLoading = ref(false)
     const search = ref('')
+    const form = ref({})
+    const validationErrors = ref(null)
 
     /**
      * Retrieves all products from the API.
@@ -48,6 +50,7 @@ export const useProductStore = defineStore('product', () => {
         })
             .then(({ data }) => {
                 product.value = data.products
+                form.value = data.products
             })
             .catch(({ response }) => {
                 toast.error(response.data.message)
@@ -82,7 +85,22 @@ export const useProductStore = defineStore('product', () => {
         search.value = ''
     }
 
+    const save = async () => {
+        await api.post('/products', form.value, {
+            headers: auth.getTokenHeader()
+        })
+            .then(({ data }) => {
+                toast.success(data.message)
+                console.log(data)
+            })
+            .catch(({ response }) => {
+                toast.warning(response.data.message)
+                validationErrors.value = response.data.errors
+                console.log(response?.data?.errors)
+            })
+    }
+
     return {
-        products, product, getAllProducts, getProductById, page, perPage, orderByField, orderByAsc, setOrderBy, isLoading, search, clear
+        products, product, getAllProducts, getProductById, page, perPage, orderByField, orderByAsc, setOrderBy, isLoading, search, clear, form, save, validationErrors
     }
 }, { persist: true })

@@ -22,6 +22,10 @@ const props = defineProps({
         type: String,
         default: 'button'
     },
+    to: {
+        type: [String, Object],
+        default: null
+    }
 })
 
 const setButtonClassName = computed(() => {
@@ -44,7 +48,11 @@ const setButtonClassName = computed(() => {
 </script>
 
 <template>
-    <button class="btn" :class="setButtonClassName" :type="type">
+    <button class="btn" :class="setButtonClassName" :type="type" v-if="type != 'link'">
         <slot />
     </button>
+
+    <router-link v-else :to="to" class="btn" :class="setButtonClassName" >
+        <slot />
+    </router-link>
 </template>
