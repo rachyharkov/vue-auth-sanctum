@@ -5,7 +5,7 @@ const props = defineProps({
     label: String,
     modelValue: {
         type: [String, File],
-        required: true
+        required: false
     },
     type: {
         type: String,
@@ -49,7 +49,7 @@ const props = defineProps({
     }
 })
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue', 'blur'])
 
 onMounted(() => {
     if (input.value.hasAttribute('autofocus')) {
@@ -66,7 +66,7 @@ const className = computed(() => {
 
     className += props.isLarge ? ' form-control-lg' : ''
 
-    className += props.error && props.modelValue.length <= 0 ? ' is-invalid' : ''
+    className += props.error ? ' is-invalid' : ''
 
     return className
 })
@@ -83,9 +83,9 @@ const className = computed(() => {
                 style="width: 15px; height: 14px; margin-bottom: 3px;"></div>
         </label>
 
-        <input :type="type" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :id="id"
+        <input :type="type" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" @blur="$emit('blur')" :id="id"
             :class="className" ref="input" :placeholder="placeholder != '' ? placeholder : label" :disabled="disabled">
 
-        <span v-if="error && props.modelValue.length <= 0" class="text-danger">{{ error }}</span>
+        <span v-if="error" class="text-danger">{{ error }}</span>
     </div>
 </template>
