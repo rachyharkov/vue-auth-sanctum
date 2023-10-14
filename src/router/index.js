@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import authMiddleware from './middleware/auth-middleware'
 import clearValidationErrors from './middleware/clear-validation-errors'
+import product from './product'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,7 +49,8 @@ const router = createRouter({
         title: 'Profile',
         description: 'Profile'
       }
-    }
+    },
+    ...product
   ]
 })
 
